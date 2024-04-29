@@ -3,8 +3,8 @@ from os import path, makedirs
 from botocore.exceptions import NoCredentialsError, ClientError
 from pathlib import Path
 
-from cheada.globalUtils.loggerConfig import logger
-from cheada.cloud_service_agent.s3.config.S3Config import client_s3
+from globalUtils.loggerConfig import logger
+from cloud_service_agent.s3.config.S3Config import client_s3
 
 """ 
 [파일 설명]

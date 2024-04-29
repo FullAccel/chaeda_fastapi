@@ -1,7 +1,7 @@
 import threading
 from fastapi import APIRouter
 from pydantic import BaseModel
-from cheada.cloud_service_agent.s3 import s3_utils
+from cloud_service_agent.s3 import s3_utils
 
 
 class Data(BaseModel):
