@@ -1,5 +1,6 @@
-from cheada.cloud_service_agent.s3 import s3_utils
-
+from cloud_service_agent.s3 import s3_utils
+import fitz
+import os
 
 def download_textbook_from_s3(filename, file_location):
     """
@@ -9,3 +10,28 @@ def download_textbook_from_s3(filename, file_location):
     :return:
     """
     s3_utils.download_file_from_s3(filename, file_location)
+
+def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
+    file_name = os.path.basename(pdf_file)[:-4].replace(" ", "")
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+    
+    doc = fitz.open(pdf_file)
+
+    
+    try:
+        if pdf_page_number == 0: # pdf_page_number 특정 값 미지정 시, 전체 변환
+            for i, page in enumerate(doc):
+                img = page.get_pixmap()   # 이미지 변환
+                img.save(output_folder + "\\" + file_name + f'_{i}_output.png') # 변환된 이미지 저장
+            print('전체 변환')
+        elif pdf_page_number != 0:
+            page = doc.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
+            i = pdf_page_number
+            img = page.get_pixmap()   # 이미지 변환
+            img.save(output_folder + "\\" + file_name + f'_{i}_only_output.png') # 변환된 이미지 저장
+            print(pdf_page_number, '페이지 변환')
+    except ValueError:
+        print('Error: page not in document')
+    
