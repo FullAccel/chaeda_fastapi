@@ -1,4 +1,5 @@
-from cloud_service_agent.s3 import s3_utils
+from cheada_fastapi.cheada.cloud_service_agent.s3 import s3_utils
+from PIL import Image
 import fitz
 import os
 
