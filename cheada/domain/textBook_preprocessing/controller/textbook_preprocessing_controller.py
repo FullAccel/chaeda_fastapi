@@ -9,7 +9,6 @@ from cheada_fastapi.cheada.db import schemas, models, crud
 from sqlalchemy.orm import Session
 import httpx, os
 
-from db.database import get_db
 
 class Data(BaseModel):
     fileName: str
@@ -18,7 +17,7 @@ class Data(BaseModel):
 router = APIRouter()
 
 @router.post("/textbook/preprocessing")
-async def preprocessing(data: Data):
+def preprocessing(data: Data):
     # fileName = data.fileName
     fileName = "textbook/2024/[블랙라벨] 수학 II.pdf"
     # save_location = "globalUtils/temp_textbook_storage"
@@ -34,15 +33,3 @@ async def preprocessing(data: Data):
     threading.Thread(target=start_preprocessing, args=(fileName, save_location)).start()
     
     return True
-
-@router.post("/users", response_model=schemas.User)
-def create_user(user_info: schemas.UserBase, session: Session = Depends(get_db)):
-    db_user = (
-        session.query(models.Users)
-        .filter(models.Users.nickname == user_info.nickname)
-        .first()
-    )
-
-    if db_user:
-        raise HTTPException(status_code=400, detail="Nickname already registered")
-    return crud.create_user(session, user_info)

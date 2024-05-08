@@ -1,3 +1,30 @@
+# from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+# from sqlalchemy.orm import relationship
+
+# from .database import Base
+
+
+# class User(Base):
+#     __tablename__ = "users"
+
+#     id = Column(Integer, primary_key=True)
+#     email = Column(String, unique=True, index=True)
+#     hashed_password = Column(String)
+#     is_active = Column(Boolean, default=True)
+
+#     items = relationship("Item", back_populates="owner")
+
+
+# class Item(Base):
+#     __tablename__ = "items"
+
+#     id = Column(Integer, primary_key=True)
+#     title = Column(String, index=True)
+#     description = Column(String, index=True)
+#     owner_id = Column(Integer, ForeignKey("users.id"))
+
+#     owner = relationship("User", back_populates="items")
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
@@ -14,7 +41,7 @@ class Type(Base):
     chapter = Column(String, nullable=False)
     subconcept = Column(String, nullable=False)
 
-    problems = relationship("MathProblem", back_populates="type")
+    math_problems = relationship("MathProblem", back_populates="type")
 
 
 class MathProblem(Base):
@@ -25,10 +52,10 @@ class MathProblem(Base):
     textbookName = Column(String)
     problemNumber = Column(Integer, nullable=False)
     pageNum = Column(Integer, nullable=False)
-    solveStudentNum = Column(Integer, nullable=False)
-    incorrectStudentNum = Column(Integer, nullable=False)
-    easyNum = Column(Integer, nullable=False)
-    middleNum = Column(Integer, nullable=False)
-    difficultNum = Column(Integer, nullable=False)
+    solveStudentNum = Column(Integer)
+    incorrectStudentNum = Column(Integer)
+    easyNum = Column(Integer)
+    middleNum = Column(Integer)
+    difficultNum = Column(Integer)
     
-    types = relationship("Type", back_populates="problems")
+    type = relationship("Type", back_populates="math_problems")
