@@ -36,9 +36,9 @@ def upload_file_to_s3(filename, file_location):
 
     try:
         client_s3.upload_file(
-            filename=f"{file_location}",
-            bucket=bucket_name, #s3 bucket이름
-            key=f"{filename}",
+            Filename=f"{file_location}",
+            Bucket=bucket_name, #s3 bucket이름
+            Key=f"{filename}",
             ExtraArgs={'ContentType': 'image/png'}
         )
     except NoCredentialsError as e:
