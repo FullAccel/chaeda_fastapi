@@ -1,0 +1,10 @@
+version: "3.10"
+
+services:
+  fastapi:
+    image: fastapi
+    command: uvicorn app.main:app --host 114.70.23.79 --port 5432 --reload
+    ports:
+      - 5434:5432
+    volumes:
+      - ./app:/code/app
