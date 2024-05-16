@@ -43,7 +43,7 @@ def read_math_problems(db: Session = Depends(get_db)):
 
 @router.post("/type/", response_model=schemas.MathProblemType)
 def create_type(type: schemas.MathProblemTypeCreate, db: Session = Depends(get_db)):
-    db_type = crud.get_type_by_subject(db, subject=type.subject)
+    db_type = crud.get_type_by_sub_concept(db, sub_concept=type.sub_concept)
     if db_type:
         raise HTTPException(status_code=400, detail="Subject already registered")
     return crud.create_type(db=db, type=type)
@@ -51,6 +51,13 @@ def create_type(type: schemas.MathProblemTypeCreate, db: Session = Depends(get_d
 @router.get("/math_problem_type/{subject}", response_model=schemas.MathProblemType)
 def read_type(subject: str, db: Session = Depends(get_db)):
     db_type = crud.get_type_by_subject(db, subject=subject)
+    if db_type is None:
+        raise HTTPException(status_code=404, detail="Type not found")
+    return db_type
+
+@router.get("/math_problem_type/{sub_concept}", response_model=schemas.MathProblemType)
+def read_type(sub_concept: str, db: Session = Depends(get_db)):
+    db_type = crud.get_type_by_sub_concept(db, sub_concept=sub_concept)
     if db_type is None:
         raise HTTPException(status_code=404, detail="Type not found")
     return db_type

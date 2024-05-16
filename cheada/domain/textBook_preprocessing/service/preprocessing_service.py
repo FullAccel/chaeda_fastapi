@@ -1,8 +1,8 @@
 from matplotlib import pyplot as plt
 from AI.extract_data.get_problem_data import get_response_from_claude
 from AI.image_segmentation.crop_pieces import model_predict
-from cheada_fastapi.cheada.domain.textBook_preprocessing.dto.ProblemInfoDto import ProblemInfoDto
-from cheada_fastapi.cheada.domain.textBook_preprocessing.service.image_service import upload_image_to_s3
+from cheada.domain.textBook_preprocessing.dto.ProblemInfoDto import ProblemInfoDto
+from cheada.domain.textBook_preprocessing.service.image_service import upload_image_to_s3
 
 import os, fitz, cv2
 import numpy as np

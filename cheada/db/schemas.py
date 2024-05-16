@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class MathProblemTypeBase(BaseModel):
     subject: str
     chapter: str
-    subconcept: str
+    sub_concept: str
     
 
 class MathProblemTypeCreate(MathProblemTypeBase):

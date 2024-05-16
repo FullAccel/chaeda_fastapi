@@ -12,7 +12,7 @@ class MathProblemType(Base):
     id = Column(Integer, primary_key=True)
     subject = Column(String, nullable=False)
     chapter = Column(String, nullable=False)
-    subconcept = Column(String, nullable=False)
+    sub_concept = Column(String, nullable=False)
 
     math_problems = relationship("MathProblem", back_populates="math_problem_types")
 
@@ -21,7 +21,7 @@ class MathProblem(Base):
     __tablename__ = "math_problem"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    typeId = Column(Integer, ForeignKey("math_problem_type.id"), primary_key=True)
+    typeId = Column(Integer, ForeignKey("math_problem_type.id"))
     textbookName = Column(String)
     problemNumber = Column(String, nullable=False)
     pageNum = Column(Integer, nullable=False)

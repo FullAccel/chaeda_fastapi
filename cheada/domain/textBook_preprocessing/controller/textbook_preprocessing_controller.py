@@ -1,11 +1,11 @@
 import threading
 from fastapi import APIRouter
 from pydantic import BaseModel
-from cheada_fastapi.cheada.domain.textBook_preprocessing.service.preprocessing_service import start_preprocessing
-from cheada_fastapi.cheada.domain.textBook_preprocessing.service import textbook_service
+from cheada.domain.textBook_preprocessing.service.preprocessing_service import start_preprocessing
+from cheada.domain.textBook_preprocessing.service import textbook_service
 from fastapi import FastAPI, HTTPException, Depends
-from cheada_fastapi.cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
-from cheada_fastapi.cheada.db import schemas, models, crud
+from cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
+from cheada.db import schemas, models, crud
 from sqlalchemy.orm import Session
 
 

@@ -2,7 +2,7 @@ import ultralytics
 import os, random
 from roboflow import Roboflow
 from PIL import Image
-from cheada_fastapi.cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
+from cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
 import subprocess
 import glob
 import collections

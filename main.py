@@ -1,10 +1,10 @@
 import uvicorn
 
 from fastapi import Depends, FastAPI, HTTPException
-from cheada_fastapi.cheada.domain.textBook_preprocessing.controller.textbook_preprocessing_controller import router as textbook_preprocessing_router
-from cheada_fastapi.cheada.db import crud, models, schemas
-from cheada_fastapi.cheada.db.database import SessionLocal, engine
-from cheada_fastapi.cheada.db.db_router import router as db_router
+from cheada.domain.textBook_preprocessing.controller.textbook_preprocessing_controller import router as textbook_preprocessing_router
+from cheada.db import crud, models, schemas
+from cheada.db.database import SessionLocal, engine
+from cheada.db.db_router import router as db_router
 
 models.Base.metadata.create_all(bind=engine)
 

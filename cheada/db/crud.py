@@ -36,13 +36,16 @@ def get_types(db: Session, skip: int = 0, limit: int = 100):
 def get_type_by_subject(db: Session, subject: str):
 	return db.query(models.MathProblemType).filter(models.MathProblemType.subject == subject).first()
 
+def get_type_by_sub_concept(db: Session, sub_concept: str):
+	return db.query(models.MathProblemType).filter(models.MathProblemType.sub_concept == sub_concept).first()
+
 def create_type(db: Session, type: schemas.MathProblemTypeCreate):
-	db_type = models.Type(
-	    subject=type.subject,
-	    chapter=type.chapter,
-	    subconcept=type.subconcept
-	)
-	# db_type = models.MathProblemType(**type.model_dump())
+	# db_type = models.MathProblemType(
+	#     subject=type.subject,
+	#     chapter=type.chapter,
+	#     sub_concept=type.sub_concept
+	# )
+	db_type = models.MathProblemType(**type.model_dump())
 	db.add(db_type)
 	db.commit()
 	db.refresh(db_type)

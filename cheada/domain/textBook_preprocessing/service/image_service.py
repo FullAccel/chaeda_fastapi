@@ -1,4 +1,4 @@
-from cheada_fastapi.cheada.cloud_service_agent.s3 import s3_utils
+from cheada.cloud_service_agent.s3 import s3_utils
 
 
 def upload_image_to_s3(problemInfoDto, file_location):

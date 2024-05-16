@@ -1,4 +1,4 @@
-from cheada_fastapi.cheada.cloud_service_agent.s3 import s3_utils
+from cheada.cloud_service_agent.s3 import s3_utils
 
 
 def download_textbook_from_s3(filename, file_location):
