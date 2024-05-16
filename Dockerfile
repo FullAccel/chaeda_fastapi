@@ -8,10 +8,7 @@ WORKDIR /code
 COPY requirements.txt ./
 
 #
-<<<<<<< HEAD
-=======
 RUN pip install --upgrade pip
->>>>>>> 392bb16 (배포)
 RUN pip install -r requirements.txt
 
 #
