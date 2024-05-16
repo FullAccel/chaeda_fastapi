@@ -1,6 +1,7 @@
 autopep8==2.0.1
 fastapi==0.104.1
 httptools==0.6.1
+h5py==3.10.0
 ipykernel==6.25.1
 ipython==8.14.0
 ipython-genutils==0.2.0
@@ -31,5 +32,3 @@ torchaudio==2.0.2
 torchvision==0.15.2
 urllib3==2.0.2
 uvicorn==0.24.0
-h5py
-scanpy
