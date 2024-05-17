@@ -55,7 +55,6 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
 			for i, page in enumerate(doc):
 				img = page.get_pixmap()   # 이미지 변환
 				if determine_vertical_line(pix=img, index=i+1):
-					print(i+1)
 					img.save(output_folder + "\\" + pure_file_name + f'_{i}th_problem_page.png') # 변환된 이미지 저장
 				
 			print('전체 변환')

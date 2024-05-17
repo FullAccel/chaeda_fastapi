@@ -20,10 +20,10 @@ def preprocessing(data: Data):
     fileName = data.fileName
     s3_textbook_path = f"textbook/2024/{fileName}"
     
-    globalUtils_dir = r"C:\Users\aiotu\Projects\GradProj\cheada_fastapi\cheada\globalUtils"
-    local_textbook_dir = r"C:\Users\aiotu\Projects\GradProj\books"
+    globalUtils_dir = r"cheada_fastapi\cheada\globalUtils"
+    local_textbook_dir = r"cheada_fastapi\books"
     textbook_service.download_textbook_from_s3(filename=s3_textbook_path, file_location=local_textbook_dir)
-    
+    print('downloaded')
     temp_page_storage = f"{globalUtils_dir}\\temp_page_storage\\{fileName[:-4]}"
     temp_problem_storage = f"{globalUtils_dir}\\temp_problem_storage"
 
