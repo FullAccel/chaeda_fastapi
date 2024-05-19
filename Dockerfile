@@ -9,7 +9,7 @@ COPY requirements.txt ./
 
 #
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y
 RUN apt-get update -y && apt-get install -y libgl1-mesa-glx
 
