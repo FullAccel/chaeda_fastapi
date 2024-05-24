@@ -18,4 +18,4 @@ RUN apt-get update -y && apt-get install -y libgl1-mesa-glx
 COPY . .
 
 #
-CMD ["uvicorn", "main:app", "--host", "114.70.23.79", "--port", "8088"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

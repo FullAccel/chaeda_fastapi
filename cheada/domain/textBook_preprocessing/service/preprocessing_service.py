@@ -111,6 +111,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                 chapter_eng = eng_chap.name
         
         res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
+    
         print(f"type_id: {res['id']}")
         
         res = requests.post("http://127.0.0.1:8000/problem/",
@@ -124,8 +125,8 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                                     "easyNum": 0,
                                     "middleNum": 0,
                                     "difficultNum": 0
-                                    }).json()
-        print(res)
+                                    })
+
         if res.status_code == 200:
             print(f"Problem {res['problem_number']} created successfully.")
         else:
