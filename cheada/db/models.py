@@ -10,9 +10,9 @@ class MathProblemType(Base):
     __tablename__ = "math_problem_type"
 
     id = Column(Integer, primary_key=True)
-    subject = Column(String, nullable=False)
-    chapter = Column(String, nullable=False)
-    sub_concept = Column(String, nullable=False)
+    subject = Column(String, nullable=False, index=True)
+    chapter = Column(String, nullable=False, index=True)
+    sub_concept = Column(String, nullable=False, index=True)
 
     math_problems = relationship("MathProblem", back_populates="math_problem_types")
 

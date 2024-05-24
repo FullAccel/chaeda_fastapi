@@ -8,6 +8,8 @@ from cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
 from cheada.db import schemas, models, crud
 from sqlalchemy.orm import Session
 
+import os
+
 
 class Data(BaseModel):
     fileName: str
@@ -20,8 +22,9 @@ def preprocessing(data: Data):
     fileName = data.fileName
     s3_textbook_path = f"textbook/2024/{fileName}"
     
-    globalUtils_dir = r"cheada_fastapi\cheada\globalUtils"
-    local_textbook_dir = r"cheada_fastapi\books"
+    globalUtils_dir = r"cheada\globalUtils"
+    local_textbook_dir = r"books"
+    print(os.path.isdir(local_textbook_dir))
     textbook_service.download_textbook_from_s3(filename=s3_textbook_path, file_location=local_textbook_dir)
     print('downloaded')
     temp_page_storage = f"{globalUtils_dir}\\temp_page_storage\\{fileName[:-4]}"

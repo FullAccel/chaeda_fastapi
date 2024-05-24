@@ -19,7 +19,8 @@ def model_predict(image_dir, save_location):
     for i, image in enumerate(os.listdir(rf"{image_dir}")): 
         if i == 10:
             break
-        predictions = model.predict(image_dir + "\\" + image, confidence=45, overlap=30).json()["predictions"]
+        predictions = model.predict(image_dir + "\\" + image, confidence=35, overlap=30).json()["predictions"]
+        page_num = image.split(".")[0]
 
         with Image.open(image_dir + "\\" + image) as img:
             for j, p in enumerate(predictions):
@@ -31,7 +32,7 @@ def model_predict(image_dir, save_location):
                 box = (left, upper, right, lower)
                 cropped_img = img.crop(box)
                 page2problems[i].append(cropped_img)
-                cropped_img.save(save_location + "\\" + f"{i}p_{j}.png")
+                cropped_img.save(save_location + "\\" + f"{page_num}p_{j}.png")
                 
                 # problem_info = create_image_file_name(ProblemInfoDto(subject="수학 II", publish_year="2024", textbook_name="블랙라벨", page_num=f'i', problem_num=f'i_j', image_file_extension='.png'))
 

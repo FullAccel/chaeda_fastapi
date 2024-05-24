@@ -48,15 +48,15 @@ def create_type(type: schemas.MathProblemTypeCreate, db: Session = Depends(get_d
         raise HTTPException(status_code=400, detail="Subject already registered")
     return crud.create_type(db=db, type=type)
 
-@router.get("/math_problem_type/{subject}", response_model=schemas.MathProblemType)
-def read_type(subject: str, db: Session = Depends(get_db)):
+@router.get("/math_problem_type/subject/{subject}", response_model=schemas.MathProblemType)
+def read_type_by_subject(subject: str, db: Session = Depends(get_db)):
     db_type = crud.get_type_by_subject(db, subject=subject)
     if db_type is None:
         raise HTTPException(status_code=404, detail="Type not found")
     return db_type
 
-@router.get("/math_problem_type/{sub_concept}", response_model=schemas.MathProblemType)
-def read_type(sub_concept: str, db: Session = Depends(get_db)):
+@router.get("/math_problem_type/sub_concept/{sub_concept}", response_model=schemas.MathProblemType)
+def read_type_by_sub_concept(sub_concept: str, db: Session = Depends(get_db)):
     db_type = crud.get_type_by_sub_concept(db, sub_concept=sub_concept)
     if db_type is None:
         raise HTTPException(status_code=404, detail="Type not found")
@@ -66,3 +66,10 @@ def read_type(sub_concept: str, db: Session = Depends(get_db)):
 def read_types(db: Session = Depends(get_db)):
     types = crud.get_types(db)
     return types
+
+@router.get("/math_problem_type/chapter/{chapter}")
+def read_type_by_chapter(chapter: str, db: Session = Depends(get_db)):
+    db_type = crud.get_type_by_chapter(db, chapter=chapter)
+    if db_type is None:
+        raise HTTPException(status_code=404, detail="Type not found")
+    return db_type

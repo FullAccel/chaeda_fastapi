@@ -36,6 +36,9 @@ def get_types(db: Session, skip: int = 0, limit: int = 100):
 def get_type_by_subject(db: Session, subject: str):
 	return db.query(models.MathProblemType).filter(models.MathProblemType.subject == subject).first()
 
+def get_type_by_chapter(db: Session, chapter: str):
+    return db.query(models.MathProblemType).filter(models.MathProblemType.chapter == chapter).first()
+
 def get_type_by_sub_concept(db: Session, sub_concept: str):
 	return db.query(models.MathProblemType).filter(models.MathProblemType.sub_concept == sub_concept).first()
 
@@ -50,3 +53,4 @@ def create_type(db: Session, type: schemas.MathProblemTypeCreate):
 	db.commit()
 	db.refresh(db_type)
 	return db_type
+
