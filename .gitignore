@@ -1,6 +1,5 @@
 
 *.log
+*.pdf
+*.png
 .env
-temp_page_storage/
-temp_problem_storage/
-books/
