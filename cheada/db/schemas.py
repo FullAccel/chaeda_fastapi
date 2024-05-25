@@ -16,23 +16,23 @@ class MathProblemType(MathProblemTypeBase):
 
     class Config:
         orm_mode = True
+        from_attributes=True
 
 
 # MathProblem
 class MathProblemBase(BaseModel):
-    typeId: int
-    textbookName: str
-    problemNumber: str
-    pageNum: int
-    solveStudentNum: int
-    incorrectStudentNum: int
-    easyNum: int
-    middleNum: int
-    difficultNum: int
+    textbook_id: int
+    problem_number: str
+    page_number: int
+    solved_students_count: int
+    incorrect_students_count: int
+    easy_num: int
+    medium_difficulty_perceived_count: int
+    high_difficulty_perceived_count: int
 
 
 class MathProblemCreate(MathProblemBase):
-    pass
+    type_id: int
 
 
 class MathProblem(MathProblemBase):
@@ -40,3 +40,4 @@ class MathProblem(MathProblemBase):
     
     class Config:
         orm_mode = True
+        from_attributes=True

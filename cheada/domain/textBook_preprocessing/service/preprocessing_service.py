@@ -1,3 +1,4 @@
+import json
 from fastapi import HTTPException
 from matplotlib import pyplot as plt
 from AI.extract_data.get_problem_data import get_response_from_claude
@@ -99,38 +100,45 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         model_predict(image_dir=temp_page_storage, save_location=temp_problem_storage)
     
     # 3. crop한 문제 s3에 업로드
+
+    # textbook_id 가져오기
+    res = requests.get(f"http://127.0.0.1:8000/textbooks/Textbook 10").json()
+    # print(res)
+    textbook_id = res['id']
+    
     for i, page_img in enumerate(os.listdir(rf"{temp_problem_storage}")): 
-        result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject="수학 II")
+        # result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject="수학 II")
+        result = {'category': '미분', 'problem_number': i+15}
 
         print(result)
         page_num = page_img.split("p")[0]
-
         
         for eng_chap in ChapterEnum:
             if eng_chap.value == result['category']:
                 chapter_eng = eng_chap.name
-        
+        print(chapter_eng)
         res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
-    
-        print(f"type_id: {res['id']}")
-        
-        res = requests.post("http://127.0.0.1:8000/problem/",
-                                 json={
-                                    "typeId": res['id'],
-                                    "textbookName": "블랙라벨",
-                                    "problemNumber": result['problem_number'],
-                                    "pageNum": page_num,
-                                    "solveStudentNum": 0,
-                                    "incorrectStudentNum": 0,
-                                    "easyNum": 0,
-                                    "middleNum": 0,
-                                    "difficultNum": 0
-                                    })
+        type_id = res['id']
+        # print(f"type_id: {res['id']}")
 
+        problem = {
+                    "type_id": type_id,
+                    "textbook_id": textbook_id,
+                    "problem_number": str(result['problem_number']),
+                    "page_number": page_num,
+                    "solved_students_count": 0,
+                    "incorrect_students_count": 0,
+                    "easy_num": 0,
+                    "medium_difficulty_perceived_count": 0,
+                    "high_difficulty_perceived_count": 0
+                    }
+        res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
+        print(textbook_id, str(result['problem_number']))
+        
         if res.status_code == 200:
-            print(f"Problem {res['problem_number']} created successfully.")
+            print(f"Problem created successfully.")
         else:
-            print(f"Failed to create problem {res['problem_number']}: {res.content}")
+            print(f"Failed to create problem: {res.content}")
 
         if i == 2: break
     

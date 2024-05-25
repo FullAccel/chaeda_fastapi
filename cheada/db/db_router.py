@@ -24,8 +24,9 @@ async def get_db():
 
 @router.post("/problem/", response_model=schemas.MathProblem)
 def create_problem(problem: schemas.MathProblemCreate, db: Session = Depends(get_db)):
-    db_problem = crud.get_problem_by_name_problem_number(db, name=problem.textbookName, problem_number=problem.problemNumber)
+    db_problem = crud.get_problem_by_id_problem_number(db, id=problem.textbook_id, problem_number=problem.problem_number)
     if db_problem:
+        # print(schemas.MathProblem.from_orm(db_problem).dict())
         raise HTTPException(status_code=400, detail="Problem Already Exist")
     return crud.create_problem(db=db, problem=problem)
 
@@ -73,3 +74,10 @@ def read_type_by_chapter(chapter: str, db: Session = Depends(get_db)):
     if db_type is None:
         raise HTTPException(status_code=404, detail="Type not found")
     return db_type
+
+@router.get("/textbooks/{textbook_name}")
+def read_textbook_by_name(textbook_name: str, db: Session = Depends(get_db)):
+    db_textbook = crud.get_textbook_by_name(db, textbook_name=textbook_name)
+    if db_textbook is None:
+        raise HTTPException(status_code=404, detail="Textbook not found")
+    return db_textbook
