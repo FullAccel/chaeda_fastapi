@@ -5,9 +5,6 @@ import os
 from cheada.cloud_service_agent.s3 import s3_utils
 import tempfile
 
-# 이미지 폴더 경로 및 출력 PDF 파일 이름 설정
-image_folder = r'C:\Users\aiotu\Projects\GradProj\cheada_fastapi\cheada\globalUtils\temp_problem_storage'
-
 def convert_images_to_pdf(filename, image_folder, output_pdf):
     # 페이지 사이즈 정의 (A4)
     page_width, page_height = A4

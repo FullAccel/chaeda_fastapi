@@ -13,6 +13,8 @@ import numpy as np
 import requests
 import glob
 import shutil
+from tqdm import tqdm
+from pdf2image import convert_from_path
 
 type2id = {
 	"수학 상": ["다항식", "방정식", "부등식", "도형의 방정식"],
@@ -58,27 +60,32 @@ def determine_vertical_line(pix, index):
     return True
     
 def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
-    pure_file_name = os.path.basename(pdf_file)[:-4]
-
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
-    doc = fitz.open(pdf_file)
-
+    document = fitz.open(pdf_file)
+    dpi = 300
     
     try:
         if pdf_page_number == 0: # pdf_page_number 특정 값 미지정 시, 전체 변환
-            for i, page in enumerate(doc):
-                img = page.get_pixmap()   # 이미지 변환
-                if determine_vertical_line(pix=img, index=i+1):
-                    img.save(os.path.join(output_folder, f"{i}.png"))
+            for i, page in tqdm(enumerate(document), total=len(document)):
+                zoom = dpi / 72  # 72는 PDF의 기본 DPI
+                mat = fitz.Matrix(zoom, zoom)
+                
+                for page_num in range(document.page_count):
+                    page = document.load_page(page_num)
+                    pix = page.get_pixmap(matrix=mat)
+                    if determine_vertical_line(pix=pix, index=i+1):
+                        pix.save(os.path.join(output_folder, f"{i}.png"))
+                        
+                # document.close()
                 
             print('전체 변환')
         elif pdf_page_number != 0:
-            page = doc.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
+            page = document.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
             i = pdf_page_number
             img = page.get_pixmap()   # 이미지 변환
-            img.save(os.path.join(output_folder, pure_file_name, f'_{i}_only_output.png'))
+            img.save(os.path.join(output_folder, f'{i}_only_output.png'))
             
             print(pdf_page_number, '페이지 변환')
 
@@ -90,12 +97,12 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
 def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_problem_storage):
     print("\nstart preprocess thread\n")
     # 1. pdf를 png로 바꾸고
-    if os.path.exists(temp_page_storage):
+    if len(os.listdir(temp_page_storage)) > 0:
         print("해당 문제집은 이미 이미지로 변환된 상태입니다.")
     else:
         print('변환')
         convert_pdf_to_png(pdf_file=os.path.join(local_textbook_dir, fileName), output_folder=temp_page_storage)
-    
+
     # 2. png마다 문제 crop하고 추출
     print("2. png마다 문제 crop하고 추출")
     if len(os.listdir(temp_problem_storage)) == 0:
@@ -148,5 +155,6 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
             print(f"Failed to create problem: {res.content}")
         
         # if i == 2: break
-    shutil.rmtree(temp_page_storage)
+    # shutil.rmtree(temp_page_storage)
+    [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
     [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]

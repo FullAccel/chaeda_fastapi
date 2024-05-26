@@ -6,10 +6,9 @@ from cheada.domain.review_note_maker.service import review_note_service
 from typing import List
 from cheada.globalUtils.types import ChapterEnum
 from enum import Enum
+from cheada.globalUtils.global_vars import globalUtils_dir, temp_problem_storage
 
 import os
-
-
 
 class FileExtension(Enum):
     PNG = "PNG"
@@ -34,17 +33,15 @@ class ReviewNoteMakeRequest(BaseModel):
 router = APIRouter()
 
 
-
 @router.post("/review-note")
 def reviewNoteMaker(data: ReviewNoteMakeRequest):
-    fileName = data.fileName
+    fileName = data.filename
 
-    globalUtils_dir = r"cheada/globalUtils/temp_page_storage"
     for info in data.review_note_problem_info_list:
 
         s3_problem_image_path = f"review_note_problem/{data.memberId}/{info.image_key}.png"
 
-        review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=globalUtils_dir)
+        review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=temp_problem_storage)
 
-    review_note_service.convert_images_to_pdf(filename=fileName, image_folder=globalUtils_dir, output_pdf=globalUtils_dir)
+    review_note_service.convert_images_to_pdf(filename=fileName, image_folder=temp_problem_storage, output_pdf=os.path.join(globalUtils_dir, "editted.pdf"))
     return True

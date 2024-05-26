@@ -8,6 +8,8 @@ from cheada.domain.textBook_preprocessing.dto import ProblemInfoDto
 from cheada.db import schemas, models, crud
 from sqlalchemy.orm import Session
 
+from cheada.globalUtils.global_vars import temp_page_storage, temp_problem_storage, local_textbook_dir
+
 import os
 
 
@@ -22,14 +24,10 @@ def preprocessing(data: Data):
     fileName = data.fileName
     s3_textbook_path = f"textbook/2024/{fileName}"
 
-    globalUtils_dir = os.path.join(os.getcwd(), "cheada", "globalUtils")
-    local_textbook_dir = os.path.join(os.getcwd(), "books")
-
+    
     textbook_service.download_textbook_from_s3(filename=s3_textbook_path, file_location=local_textbook_dir)
     print('downloaded')
-    
-    temp_page_storage = os.path.join(globalUtils_dir, "temp_page_storage", fileName[:-4])
-    temp_problem_storage = os.path.join(globalUtils_dir, "temp_problem_storage")
+
     
     #현재 spring 서버가 동기로 응답을 기다리고 있기 때문에 전처리하는 과정을 thread를 만들어 비동기로 처리한 후 spring에게
     # 바로 응답을 보내줘야합니다.
