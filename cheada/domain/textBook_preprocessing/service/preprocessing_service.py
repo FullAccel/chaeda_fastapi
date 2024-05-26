@@ -71,7 +71,6 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
             for i, page in enumerate(doc):
                 img = page.get_pixmap()   # 이미지 변환
                 if determine_vertical_line(pix=img, index=i+1):
-                    # img.save(output_folder + "\\" + f'{i}.png') # 변환된 이미지 저장
                     img.save(os.path.join(output_folder, f"{i}.png"))
                 
             print('전체 변환')
@@ -79,7 +78,6 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
             page = doc.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
             i = pdf_page_number
             img = page.get_pixmap()   # 이미지 변환
-            # img.save(output_folder + "\\" + pure_file_name + f'_{i}_only_output.png') # 변환된 이미지 저장
             img.save(os.path.join(output_folder, pure_file_name, f'_{i}_only_output.png'))
             
             print(pdf_page_number, '페이지 변환')
@@ -96,7 +94,6 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         print("해당 문제집은 이미 이미지로 변환된 상태입니다.")
     else:
         print('변환')
-        # convert_pdf_to_png(pdf_file=f"{local_textbook_dir}\\{fileName}", output_folder=temp_page_storage)
         convert_pdf_to_png(pdf_file=os.path.join(local_textbook_dir, fileName), output_folder=temp_page_storage)
     
     # 2. png마다 문제 crop하고 추출
