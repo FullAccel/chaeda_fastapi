@@ -11,6 +11,8 @@ from cheada.globalUtils.types import ChapterEnum
 import os, fitz, cv2
 import numpy as np
 import requests
+import glob
+import shutil
 
 type2id = {
 	"수학 상": ["다항식", "방정식", "부등식", "도형의 방정식"],
@@ -56,10 +58,10 @@ def determine_vertical_line(pix, index):
     return True
     
 def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
-    pure_file_name = os.path.basename(pdf_file)[:-4].replace(" ", "")
+    pure_file_name = os.path.basename(pdf_file)[:-4]
 
     if not os.path.exists(output_folder):
-        os.mkdir(output_folder)
+        os.makedirs(output_folder)
     
     doc = fitz.open(pdf_file)
 
@@ -69,14 +71,16 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
             for i, page in enumerate(doc):
                 img = page.get_pixmap()   # 이미지 변환
                 if determine_vertical_line(pix=img, index=i+1):
-                    img.save(output_folder + "\\" + f'{i}.png') # 변환된 이미지 저장
+                    # img.save(output_folder + "\\" + f'{i}.png') # 변환된 이미지 저장
+                    img.save(os.path.join(output_folder, f"{i}.png"))
                 
             print('전체 변환')
         elif pdf_page_number != 0:
             page = doc.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
             i = pdf_page_number
             img = page.get_pixmap()   # 이미지 변환
-            img.save(output_folder + "\\" + pure_file_name + f'_{i}_only_output.png') # 변환된 이미지 저장
+            # img.save(output_folder + "\\" + pure_file_name + f'_{i}_only_output.png') # 변환된 이미지 저장
+            img.save(os.path.join(output_folder, pure_file_name, f'_{i}_only_output.png'))
             
             print(pdf_page_number, '페이지 변환')
 
@@ -92,11 +96,12 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         print("해당 문제집은 이미 이미지로 변환된 상태입니다.")
     else:
         print('변환')
-        convert_pdf_to_png(pdf_file=f"{local_textbook_dir}\\{fileName}", output_folder=temp_page_storage)
+        # convert_pdf_to_png(pdf_file=f"{local_textbook_dir}\\{fileName}", output_folder=temp_page_storage)
+        convert_pdf_to_png(pdf_file=os.path.join(local_textbook_dir, fileName), output_folder=temp_page_storage)
     
     # 2. png마다 문제 crop하고 추출
     print("2. png마다 문제 crop하고 추출")
-    if len(os.listdir(r'cheada\globalUtils\temp_problem_storage')) == 0:
+    if len(os.listdir(temp_problem_storage)) == 0:
         model_predict(image_dir=temp_page_storage, save_location=temp_problem_storage)
     
     # 3. crop한 문제 s3에 업로드
@@ -106,7 +111,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
     # print(res)
     textbook_id = res['id']
     
-    for i, page_img in enumerate(os.listdir(rf"{temp_problem_storage}")): 
+    for i, page_img in enumerate(os.listdir(temp_problem_storage)): 
         # result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject="수학 II")
         result = {'category': '미분', 'problem_number': i+15}
 
@@ -134,11 +139,17 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                     }
         res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
         print(textbook_id, str(result['problem_number']))
+
+        # s3에 problem 이미지 저장
+        problem_info = ProblemInfoDto(subject="수학", publish_year=2024, textbook_name="[블랙라벨] 수학 II", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
+        upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
         
         if res.status_code == 200:
             print(f"Problem created successfully.")
+            
         else:
             print(f"Failed to create problem: {res.content}")
-
-        if i == 2: break
-    
+        
+        # if i == 2: break
+    shutil.rmtree(temp_page_storage)
+    [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
