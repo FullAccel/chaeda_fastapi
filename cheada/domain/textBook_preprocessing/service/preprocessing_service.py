@@ -9,11 +9,11 @@ from cheada.db import crud, models, schemas
 from cheada.globalUtils.types import ChapterEnum
 
 import os, fitz, cv2
-import numpy as np
 import requests
 import glob
 import shutil
 from tqdm import tqdm
+import logging
 
 type2id = {
 	"수학 상": ["다항식", "방정식", "부등식", "도형의 방정식"],
@@ -123,7 +123,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
     # print(res)
     textbook_id = res['id']
     
-    for i, page_img in enumerate(os.listdir(temp_problem_storage)): 
+    for i, page_img in enumerate(os.listdir(temp_problem_storage)):
         result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}")
         # result = {'category': '미분', 'problem_number': i+15}
 

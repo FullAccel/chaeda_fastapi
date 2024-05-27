@@ -8,7 +8,7 @@ from cheada.cloud_service_agent.s3 import s3_utils
 import tempfile
 from PIL import Image
 from cheada.globalUtils.global_vars import globalUtils_dir
-
+import logging
 
 def change_dpi(input_path, output_path, index, dpi=(600, 600)):
     # 이미지를 엽니다
@@ -55,6 +55,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
     left_page_full = False
 
     for i, (img_path, img) in enumerate(large_problems):
+        logging.info("large_problem 생성 중")
         if i%2 == 0:
             c.drawImage(os.path.join(globalUtils_dir, "template_large.png"), 0, 0, width=page_width, height=page_height)
         img_height, img_width, _ = img.shape
@@ -98,6 +99,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         c.showPage()
         
     for i, (img_path, img) in enumerate(small_problems):
+        logging.info("small_problems 생성 중")
         if i%4 == 0:
             c.drawImage(os.path.join(globalUtils_dir, "template.png"), 0, 0, width=page_width, height=page_height)
         img_height, img_width, _ = img.shape
