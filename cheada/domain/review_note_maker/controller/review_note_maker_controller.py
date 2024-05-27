@@ -37,12 +37,11 @@ router = APIRouter()
 @router.post("/review-note")
 def reviewNoteMaker(data: ReviewNoteMakeRequest):
     fileName = data.filename
+    # for info in data.review_note_problem_info_list:
 
-    for info in data.review_note_problem_info_list:
+    #     s3_problem_image_path = f"review_note_problem/{data.memberId}/{info.image_key}.png"
 
-        s3_problem_image_path = f"review_note_problem/{data.memberId}/{info.image_key}.png"
-
-        review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=temp_problem_storage)
+    #     review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=temp_problem_storage)
 
     # for i, img in enumerate(os.listdir(temp_problem_storage)):
     #     change_dpi(input_path=os.path.join(temp_problem_storage, img), output_path=temp_problem_storage, index=i)
