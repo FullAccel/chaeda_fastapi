@@ -7,6 +7,7 @@ from typing import List
 from cheada.globalUtils.types import ChapterEnum
 from enum import Enum
 from cheada.globalUtils.global_vars import globalUtils_dir, temp_problem_storage
+from cheada.domain.review_note_maker.service.review_note_service import change_dpi
 
 import os
 
@@ -43,5 +44,8 @@ def reviewNoteMaker(data: ReviewNoteMakeRequest):
 
         review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=temp_problem_storage)
 
-    review_note_service.convert_images_to_pdf(filename=fileName, image_folder=temp_problem_storage, output_pdf=os.path.join(globalUtils_dir, "editted.pdf"))
+    # for i, img in enumerate(os.listdir(temp_problem_storage)):
+    #     change_dpi(input_path=os.path.join(temp_problem_storage, img), output_path=temp_problem_storage, index=i)
+
+    review_note_service.convert_images_to_pdf(data, filename=fileName, image_folder=temp_problem_storage, output_pdf=os.path.join(globalUtils_dir, "editted.pdf"))
     return True

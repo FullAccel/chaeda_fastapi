@@ -70,7 +70,7 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
     try:
         if pdf_page_number == 0: # pdf_page_number 특정 값 미지정 시, 전체 변환
             for i, page in tqdm(enumerate(document), total=len(document)):
-                pix = page.get_pixmap(matrix=mat)
+                pix = page.get_pixmap()
                 # pix = page.get_pixmap()
                 # if determine_vertical_line(pix=pix, index=i+1):
                 pix.save(os.path.join(output_folder, f"{i}.png"))
@@ -153,4 +153,4 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         # if i == 2: break
     # shutil.rmtree(temp_page_storage)
     [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
-    # [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
+    [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
