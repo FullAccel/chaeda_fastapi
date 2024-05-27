@@ -128,40 +128,40 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         # result = {'category': '미분', 'problem_number': i+15}
 
         print(result)
-        # page_num = page_img.split("p")[0]
+        page_num = page_img.split("p")[0]
         
-        # for eng_chap in ChapterEnum:
-        #     if eng_chap.value == result['category']:
-        #         chapter_eng = eng_chap.name
-        # print(chapter_eng)
-        # res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
-        # type_id = res['id']
-        # # print(f"type_id: {res['id']}")
+        for eng_chap in ChapterEnum:
+            if eng_chap.value == result['category']:
+                chapter_eng = eng_chap.name
+        print(chapter_eng)
+        res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
+        type_id = res['id']
+        # print(f"type_id: {res['id']}")
 
-        # problem = {
-        #             "type_id": type_id,
-        #             "textbook_id": textbook_id,
-        #             "problem_number": str(result['problem_number']),
-        #             "page_number": page_num,
-        #             "solved_students_count": 0,
-        #             "incorrect_students_count": 0,
-        #             "easy_num": 0,
-        #             "medium_difficulty_perceived_count": 0,
-        #             "high_difficulty_perceived_count": 0
-        #             }
+        problem = {
+                    "type_id": type_id,
+                    "textbook_id": textbook_id,
+                    "problem_number": str(result['problem_number']),
+                    "page_number": page_num,
+                    "solved_students_count": 0,
+                    "incorrect_students_count": 0,
+                    "easy_num": 0,
+                    "medium_difficulty_perceived_count": 0,
+                    "high_difficulty_perceived_count": 0
+                    }
         
-        # res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
-        # print(textbook_id, str(result['problem_number']))
+        res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
+        print(textbook_id, str(result['problem_number']))
 
-        # # s3에 problem 이미지 저장
-        # problem_info = ProblemInfoDto(subject="확률과 통계", publish_year=2024, textbook_name="[RPM]확률과 통계", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
-        # upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
+        # s3에 problem 이미지 저장
+        problem_info = ProblemInfoDto(subject="확률과 통계", publish_year=2024, textbook_name="[RPM]확률과 통계", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
+        upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
         
-        # if res.status_code == 200:
-        #     print(f"Problem created successfully.")
+        if res.status_code == 200:
+            print(f"Problem created successfully.")
             
-        # else:
-        #     print(f"Failed to create problem: {res.content}")
+        else:
+            print(f"Failed to create problem: {res.content}")
         
         if i == 2: break
     # shutil.rmtree(temp_page_storage)
