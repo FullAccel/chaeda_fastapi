@@ -8,6 +8,7 @@ def upload_image_to_s3(problemInfoDto, file_location):
     :param file_location: 교재에서 crop한 이미지를 임시저장한 이미지파일의 임시경로입니다
     :return: void
     """
+    
     file_name = create_image_file_name(problemInfoDto)
     s3_utils.upload_file_to_s3(file_name, file_location)
 
@@ -19,3 +20,4 @@ def create_image_file_name(problemInfoDto):
     :return: 이미지 파일명
     """
     return f"problem_images/{problemInfoDto.subject}/{problemInfoDto.publish_year}/{problemInfoDto.textbook_name}/{problemInfoDto.page_num}/{problemInfoDto.problem_num}.{problemInfoDto.image_file_extension}"
+
