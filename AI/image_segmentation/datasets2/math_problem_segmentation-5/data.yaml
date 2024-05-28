@@ -1,0 +1,15 @@
+names:
+- many_in_one
+- multiple
+- short
+- small
+nc: 4
+roboflow:
+  license: CC BY 4.0
+  project: math_problem_segmentation
+  url: https://universe.roboflow.com/myproject-1dhrs/math_problem_segmentation/dataset/5
+  version: 5
+  workspace: myproject-1dhrs
+test: ../test/images
+train: train/images
+val: valid/images

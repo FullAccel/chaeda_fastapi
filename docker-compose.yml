@@ -1,0 +1,28 @@
+version: "3.10"
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: chaeda
+      POSTGRES_PASSWORD: chaeda
+      POSTGRES_DB: test
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8088
+    volumes:
+      - .:/code
+    ports:
+      - "8088:8088"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://114.70.23.79:5432/spring?user=chaeda&password=chaeda
+
+volumes:
+  postgres_data:

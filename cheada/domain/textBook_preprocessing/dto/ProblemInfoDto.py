@@ -10,6 +10,7 @@ class ProblemInfoDto:
         :param problem_num: 문제 번호
         :param image_file_extension: 이미지 파일 확장자
         """
+        
         self.subject = subject
         self.publish_year = publish_year
         self.textbook_name = textbook_name

@@ -1,0 +1,5 @@
+names:
+  0: red
+  1: green
+train: /tld_sample/train/
+val: /tld_sample/valid/
