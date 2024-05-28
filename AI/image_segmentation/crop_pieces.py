@@ -32,7 +32,7 @@ def model_predict(image_dir, save_location):
     for i, image in enumerate(os.listdir(rf"{image_dir}")): 
         if i == 10:
             break
-        predictions = model.predict(image_dir + "\\" + image, confidence=35, overlap=30).json()["predictions"]
+        predictions = model.predict(image_dir + "\\" + image, confidence=40, overlap=40).json()["predictions"]
         page_num = image.split(".")[0]
 
         with Image.open(image_dir + "\\" + image) as img:

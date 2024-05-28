@@ -9,11 +9,11 @@ from cheada.db import crud, models, schemas
 from cheada.globalUtils.types import ChapterEnum
 
 import os, fitz, cv2
-import numpy as np
 import requests
 import glob
 import shutil
 from tqdm import tqdm
+import logging
 
 type2id = {
 	"수학 상": ["다항식", "방정식", "부등식", "도형의 방정식"],
@@ -30,18 +30,33 @@ def determine_vertical_line(pix, index):
     image = np.frombuffer(image_bytes, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
     if pix.n == 4:
         image = cv2.cvtColor(image, cv2.COLOR_RGBA2BGR)
-    gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    ret, binary_image = cv2.threshold(gray_img, 240, 255, cv2.THRESH_BINARY)
+    else:
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        
+    if pix.n == 3 or pix.n == 4:
+        gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray_img = image
+        
+    # plt.title(f"{index}")
+    # plt.imshow(gray_img, cmap='gray')
+    # plt.show()
+    
+    ret, binary_image = cv2.threshold(gray_img, 230, 255, cv2.THRESH_BINARY)
+    
     height, width = binary_image.shape
     center = width // 2
+
     thickness = 20 # 검사할 선의 두께
-    center_line = binary_image[100:height-100, center-thickness//2:center+thickness//2]
+    center_line = binary_image[250:height-250, center-thickness//2:center+thickness//2]
     
     kernel = np.ones((5, 5), np.uint8)
     opening = cv2.morphologyEx(center_line, cv2.MORPH_OPEN, kernel)
     
     for r in range(20, opening.shape[0], 20):
         piece = opening[r-20:r, :]
+        # print(piece)
+
         y_coords, x_coords = np.where(piece == 0)
 
         if y_coords.size == 0 or np.max(piece) == 0:
@@ -52,33 +67,30 @@ def determine_vertical_line(pix, index):
             if abs(y-prev_y) >= 5:
                 return
             prev_y = y
-
-    # plt.title(f"{index}")
-    # plt.imshow(opening, cmap='gray_r')
-    # plt.show()
-    return True
     
+    return True
+
+
 def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
-    document = fitz.open(pdf_file)
-    dpi = 300
-    zoom = dpi / 72  # 72는 PDF의 기본 DPI
-    mat = fitz.Matrix(zoom, zoom)
+    doc = fitz.open(pdf_file)
     
     try:
         if pdf_page_number == 0: # pdf_page_number 특정 값 미지정 시, 전체 변환
-            for i, page in tqdm(enumerate(document), total=len(document)):
-                pix = page.get_pixmap(matrix=mat)
-                # pix = page.get_pixmap()
-                # if determine_vertical_line(pix=pix, index=i+1):
-                pix.save(os.path.join(output_folder, f"{i}.png"))
-                        
+            for i, page in tqdm(enumerate(doc), total=len(doc)):
+                img = page.get_pixmap()   # 이미지 변환
+                if determine_vertical_line(pix=img, index=i+1):
+                    try:
+                        img.save(os.path.join(output_folder, f"{i}.png"))
+                    except Exception as e:
+                        print(f"Error saving image {i}: {e}")
                 
             print('전체 변환')
+            
         elif pdf_page_number != 0:
-            page = document.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
+            page = doc.load_page(pdf_page_number - 1) # 특정 페이지 가져오기
             i = pdf_page_number
             img = page.get_pixmap()   # 이미지 변환
             img.save(os.path.join(output_folder, f'{i}_only_output.png'))
@@ -107,13 +119,13 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
     # 3. crop한 문제 s3에 업로드
 
     # textbook_id 가져오기
-    res = requests.get(f"http://127.0.0.1:8000/textbooks/Textbook 10").json()
+    res = requests.get(f"http://127.0.0.1:8000/textbooks/Textbook 9").json()
     # print(res)
     textbook_id = res['id']
     
-    for i, page_img in enumerate(os.listdir(temp_problem_storage)): 
-        # result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject="수학 II")
-        result = {'category': '미분', 'problem_number': i+15}
+    for i, page_img in enumerate(os.listdir(temp_problem_storage)):
+        result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}")
+        # result = {'category': '미분', 'problem_number': i+15}
 
         print(result)
         page_num = page_img.split("p")[0]
@@ -137,11 +149,12 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                     "medium_difficulty_perceived_count": 0,
                     "high_difficulty_perceived_count": 0
                     }
+        
         res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
         print(textbook_id, str(result['problem_number']))
 
         # s3에 problem 이미지 저장
-        problem_info = ProblemInfoDto(subject="수학", publish_year=2024, textbook_name="[블랙라벨] 수학 II", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
+        problem_info = ProblemInfoDto(subject="확률과 통계", publish_year=2024, textbook_name="[RPM]확률과 통계", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
         upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
         
         if res.status_code == 200:
@@ -150,7 +163,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         else:
             print(f"Failed to create problem: {res.content}")
         
-        # if i == 2: break
+        if i == 2: break
     # shutil.rmtree(temp_page_storage)
     [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
     # [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
