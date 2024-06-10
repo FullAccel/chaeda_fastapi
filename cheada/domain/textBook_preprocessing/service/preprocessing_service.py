@@ -127,7 +127,8 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
     # 3. crop한 문제 s3에 업로드
     
     for i, page_img in enumerate(os.listdir(temp_problem_storage)):
-        result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject=SubjectEnum[textbook_info['subject']].value)
+        page_path = os.path.join(temp_problem_storage, page_img)
+        result = get_response_from_claude(image_path=page_path, subject=SubjectEnum[textbook_info['subject']].value)
         # result = {'category': '미분', 'problem_number': i+15}
 
         print(result)
@@ -158,7 +159,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
 
         # s3에 problem 이미지 저장
         problem_info = ProblemInfoDto(subject=textbook_info['subject'], publish_year=textbook_info['publish_year'], textbook_name=textbook_info['name'], page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
-        upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
+        upload_image_to_s3(problem_info, page_path)
         
         if res.status_code == 200:
             print(f"Problem created successfully.")
