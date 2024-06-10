@@ -29,7 +29,7 @@ class MathProblemType(Base):
 class MathProblem(Base):
     __tablename__ = "math_problem"
 
-    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True, index=True)
     textbook_id = Column(Integer, ForeignKey("textbook.id"), nullable=False)
     problem_number = Column(String, nullable=False)
     page_number = Column(Integer, nullable=False)
@@ -44,7 +44,7 @@ class MathProblem(Base):
 class Textbook(Base):
     __tablename__ = "textbook"
 
-    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True, index=True)
     last_page_num = Column(Integer, nullable=False)
     publish_year = Column(Integer, nullable=False)
     start_page_num = Column(Integer, nullable=False)

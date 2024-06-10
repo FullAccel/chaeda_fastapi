@@ -6,7 +6,9 @@ from AI.image_segmentation.crop_pieces import model_predict
 from cheada.domain.textBook_preprocessing.dto.ProblemInfoDto import ProblemInfoDto
 from cheada.domain.textBook_preprocessing.service.image_service import upload_image_to_s3
 from cheada.db import crud, models, schemas
-from cheada.globalUtils.types import ChapterEnum
+from cheada.domain.textBook_preprocessing.service.textbook_service import download_textbook_from_s3
+from cheada.globalUtils.types import ChapterEnum, SubjectEnum
+import numpy as np
 
 import os, fitz, cv2
 import requests
@@ -104,12 +106,17 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
 
 def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_problem_storage):
     print("\nstart preprocess thread\n")
+    textbook_name = (fileName.split('/')[-1]).split('.')[0]
+
+    # textbook 정보 가져오기
+    textbook_info = requests.get(f"http://127.0.0.1:8000/textbooks/{textbook_name}").json()
+    
     # 1. pdf를 png로 바꾸고
     if len(os.listdir(temp_page_storage)) > 0:
         print("해당 문제집은 이미 이미지로 변환된 상태입니다.")
     else:
         print('변환')
-        convert_pdf_to_png(pdf_file=os.path.join(local_textbook_dir, fileName), output_folder=temp_page_storage)
+        convert_pdf_to_png(pdf_file=os.path.join(local_textbook_dir, textbook_info['name']+'.pdf'), output_folder=temp_page_storage)
 
     # 2. png마다 문제 crop하고 추출
     print("2. png마다 문제 crop하고 추출")
@@ -117,14 +124,9 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         model_predict(image_dir=temp_page_storage, save_location=temp_problem_storage)
     
     # 3. crop한 문제 s3에 업로드
-
-    # textbook_id 가져오기
-    res = requests.get(f"http://127.0.0.1:8000/textbooks/Textbook 9").json()
-    # print(res)
-    textbook_id = res['id']
     
     for i, page_img in enumerate(os.listdir(temp_problem_storage)):
-        result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}")
+        result = get_response_from_claude(image_path=f"{temp_problem_storage}\\{page_img}", subject=SubjectEnum[textbook_info['subject']].value)
         # result = {'category': '미분', 'problem_number': i+15}
 
         print(result)
@@ -133,14 +135,14 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         for eng_chap in ChapterEnum:
             if eng_chap.value == result['category']:
                 chapter_eng = eng_chap.name
-        print(chapter_eng)
+                
         res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
         type_id = res['id']
         # print(f"type_id: {res['id']}")
 
         problem = {
                     "type_id": type_id,
-                    "textbook_id": textbook_id,
+                    "textbook_id": textbook_info['id'],
                     "problem_number": str(result['problem_number']),
                     "page_number": page_num,
                     "solved_students_count": 0,
@@ -151,10 +153,10 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                     }
         
         res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
-        print(textbook_id, str(result['problem_number']))
+        print(textbook_info['id'], str(result['problem_number']))
 
         # s3에 problem 이미지 저장
-        problem_info = ProblemInfoDto(subject="확률과 통계", publish_year=2024, textbook_name="[RPM]확률과 통계", page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
+        problem_info = ProblemInfoDto(subject=textbook_info['subject'], publish_year=textbook_info['publish_year'], textbook_name=textbook_info['name'], page_num=page_num, problem_num=page_img.split("p")[1][1], image_file_extension="png")
         upload_image_to_s3(problem_info, f"{temp_problem_storage}/{page_img}")
         
         if res.status_code == 200:

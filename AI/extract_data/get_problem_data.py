@@ -68,7 +68,7 @@ def get_response_from_claude(image_path, subject=''):
 						},
 						{
 							"type": "text",
-							"text": f"Here is a dictionary.\n{subject2category}\nKeys are Korean math subject and values are categories. Please predict subject, category, problem number and output it within a JSON object only.\n"
+							"text": f"Here is a dictionary:\n{subject2category}\nKeys are math subject and values are categories. Please predict subject, category, problem number from image and output it within a JSON object only.\n"
 						}
 					],
 				}
