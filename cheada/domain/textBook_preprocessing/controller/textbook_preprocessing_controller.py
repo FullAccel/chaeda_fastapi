@@ -19,6 +19,8 @@ router = APIRouter()
 def preprocessing(data: Data):
     fileName = data.fileName
     s3_textbook_path = fileName
+
+    print(fileName)
     
     textbook_service.download_textbook_from_s3(filename=f'textbook/2024/{s3_textbook_path}', file_location=local_textbook_dir)
     print('downloaded')
