@@ -32,10 +32,12 @@ def model_predict(image_dir, save_location):
     for i, image in enumerate(os.listdir(rf"{image_dir}")): 
         if i == 10:
             break
-        predictions = model.predict(image_dir + "\\" + image, confidence=40, overlap=40).json()["predictions"]
+
+        image_path = os.path.join(image_dir, image)
+        predictions = model.predict(image_path, confidence=40, overlap=40).json()["predictions"]
         page_num = image.split(".")[0]
 
-        with Image.open(image_dir + "\\" + image) as img:
+        with Image.open(image_path) as img:
             for j, p in enumerate(predictions):
                 cx, cy, width, height = p['x'], p['y'], p['width'], p['height']
                 left = cx - width // 2
@@ -58,7 +60,8 @@ def model_predict(image_dir, save_location):
                 # sharpened_image = cv2.filter2D(resized_img, -1, kernel)
                 
                 # cv2.imwrite(save_location + "\\" + f"{page_num}p_{j}.png", sharpened_image)
-                cv2.imwrite(save_location + "\\" + f"{page_num}p_{j}.png", resized_img)
+                
+                cv2.imwrite(os.path.join(save_location, f"{page_num}p_{j}.png"), resized_img)
                 
                 # problem_info = create_image_file_name(ProblemInfoDto(subject="수학 II", publish_year="2024", textbook_name="블랙라벨", page_num=f'i', problem_num=f'i_j', image_file_extension='.png'))
 
