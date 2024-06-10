@@ -107,6 +107,7 @@ def convert_pdf_to_png(pdf_file, output_folder, pdf_page_number = 0):
 def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_problem_storage):
     print("\nstart preprocess thread\n")
     textbook_name = (fileName.split('/')[-1]).split('.')[0]
+    print(textbook_name)
 
     # textbook 정보 가져오기
     textbook_info = requests.get(f"http://127.0.0.1:80/textbooks/{textbook_name}").json()
