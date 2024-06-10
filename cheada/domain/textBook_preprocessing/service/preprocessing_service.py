@@ -109,7 +109,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
     textbook_name = (fileName.split('/')[-1]).split('.')[0]
 
     # textbook 정보 가져오기
-    textbook_info = requests.get(f"http://127.0.0.1:8000/textbooks/{textbook_name}").json()
+    textbook_info = requests.get(f"http://127.0.0.1:80/textbooks/{textbook_name}").json()
     
     # 1. pdf를 png로 바꾸고
     if len(os.listdir(temp_page_storage)) > 0:
@@ -136,7 +136,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
             if eng_chap.value == result['category']:
                 chapter_eng = eng_chap.name
                 
-        res = requests.get(f"http://127.0.0.1:8000/math_problem_type/chapter/{chapter_eng}").json()
+        res = requests.get(f"http://127.0.0.1:80/math_problem_type/chapter/{chapter_eng}").json()
         type_id = res['id']
         # print(f"type_id: {res['id']}")
 
@@ -152,7 +152,7 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
                     "high_difficulty_perceived_count": 0
                     }
         
-        res = requests.post("http://127.0.0.1:8000/problem/", json=problem)
+        res = requests.post("http://127.0.0.1:80/problem/", json=problem)
         print(textbook_info['id'], str(result['problem_number']))
 
         # s3에 problem 이미지 저장
