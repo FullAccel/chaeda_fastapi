@@ -1,7 +1,7 @@
 # from enum import Enum
 
 # # 과목
-# subject_format = ["수학 상", "수학 하", "수학 I", "수학 II", "미적분", "확률과 통계", "기하"]
+subject_format = ["수학 상", "수학 하", "수학 I", "수학 II", "미적분", "확률과 통계", "기하"]
 
 # # 과목: 세부개념
 # subject2detail = {
