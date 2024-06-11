@@ -189,7 +189,7 @@ subject2category = {
 from enum import Enum
 from typing import List
 
-class SubConcept(Enum):
+class SubConceptEnum(Enum):
     Operations_of_polynomials = "다항식의 연산"
     Remainder_theorem_and_factorization = "나머지정리와 인수분해"
     Complex_numbers = "복소수"
@@ -245,42 +245,42 @@ class SubConcept(Enum):
     Spatial_Coordinates = "공간좌표"
 
 
-class Chapter(Enum):
-    Polynomial = ("다항식", [SubConcept.Operations_of_polynomials, SubConcept.Remainder_theorem_and_factorization])
-    Equations = ("방정식", [SubConcept.Complex_numbers, SubConcept.Quadratic_equations, SubConcept.Quadratic_equations_and_quadratic_functions, SubConcept.Various_types_of_equations])
-    Inequalities = ("부등식", [SubConcept.Linear_inequalities, SubConcept.Quadratic_inequalities])
-    Equations_of_Shapes = ("도형의 방정식", [SubConcept.Plane_coordinates, SubConcept.Equations_of_lines, SubConcept.Equations_of_circles, SubConcept.Transformation_of_shapes])
-    Sets_and_Propositions = ("집합과 명제", [SubConcept.Meaning_and_representation_of_sets, SubConcept.Operations_of_sets, SubConcept.Propositions])
-    Functions = ("함수", [SubConcept.Functions, SubConcept.Rational_expressions_and_rational_functions, SubConcept.Irrational_expressions_and_irrational_functions])
-    Permutations_and_Combinations = ("순열과 조합", [SubConcept.Permutations_and_combinations])
-    Exponential_and_Logarithmic_Functions = ("지수함수와 로그함수", [SubConcept.Exponents_and_Logarithms, SubConcept.Exponential_and_Logarithmic_Functions])
-    Trigonometric_Functions = ("삼각함수", [SubConcept.Trigonometric_Functions, SubConcept.Graphs_of_Trigonometric_Functions, SubConcept.Applications_of_Trigonometric_Functions])
-    Sequences = ("수열", [SubConcept.Arithmetic_and_Geometric_Sequences, SubConcept.Sum_of_Sequences, SubConcept.Mathematical_Induction])
-    Functions_Limits_and_Continuity = ("함수의 극한과 연속", [SubConcept.Functions_Limits, SubConcept.Functions_Continuity])
-    Differentiation = ("미분", [SubConcept.Differential_Coefficient, SubConcept.Derivative_Functions, SubConcept.Applications_of_Derivatives])
-    Integration_in_Math_2 = ("적분", [SubConcept.Indefinite_Integrals, SubConcept.Definite_Integrals, SubConcept.Applications_of_Definite_Integrals_in_Math_2])
-    Limits_of_Sequences = ("수열의 극한", [SubConcept.Limits_of_Sequences, SubConcept.Series])
-    Differential_Calculus = ("미분법", [SubConcept.Differentiation_of_Various_Functions, SubConcept.Various_Differentiation_Methods, SubConcept.Applications_of_Derivative_Functions])
-    Integration_in_calculus = ("적분법", [SubConcept.Various_Integration_Methods, SubConcept.Applications_of_Definite_Integrals_in_Calculus])
-    Counting_Methods = ("경우의 수", [SubConcept.Permutations_and_combinations, SubConcept.Binomial_Theorem])
-    Probability = ("확률", [SubConcept.Probability, SubConcept.Conditional_Probability])
-    Statistics = ("통계", [SubConcept.Probability_Distributions, SubConcept.Statistical_Estimation])
-    Conic_Sections = ("이차곡선", [SubConcept.Conic_Sections, SubConcept.Conic_Sections_and_Lines])
-    Plane_Vectors = ("평면벡터", [SubConcept.Vector_Operations, SubConcept.Components_and_Dot_Product_of_Plane_Vectors])
-    Spatial_Shapes_and_Coordinates = ("공간도형과 공간좌표", [SubConcept.Spatial_Shapes, SubConcept.Spatial_Coordinates])
+class ChapterEnum(Enum):
+    Polynomial = ("다항식", [SubConceptEnum.Operations_of_polynomials, SubConceptEnum.Remainder_theorem_and_factorization])
+    Equations = ("방정식", [SubConceptEnum.Complex_numbers, SubConceptEnum.Quadratic_equations, SubConceptEnum.Quadratic_equations_and_quadratic_functions, SubConceptEnum.Various_types_of_equations])
+    Inequalities = ("부등식", [SubConceptEnum.Linear_inequalities, SubConceptEnum.Quadratic_inequalities])
+    Equations_of_Shapes = ("도형의 방정식", [SubConceptEnum.Plane_coordinates, SubConceptEnum.Equations_of_lines, SubConceptEnum.Equations_of_circles, SubConceptEnum.Transformation_of_shapes])
+    Sets_and_Propositions = ("집합과 명제", [SubConceptEnum.Meaning_and_representation_of_sets, SubConceptEnum.Operations_of_sets, SubConceptEnum.Propositions])
+    Functions = ("함수", [SubConceptEnum.Functions, SubConceptEnum.Rational_expressions_and_rational_functions, SubConceptEnum.Irrational_expressions_and_irrational_functions])
+    Permutations_and_Combinations = ("순열과 조합", [SubConceptEnum.Permutations_and_combinations])
+    Exponential_and_Logarithmic_Functions = ("지수함수와 로그함수", [SubConceptEnum.Exponents_and_Logarithms, SubConceptEnum.Exponential_and_Logarithmic_Functions])
+    Trigonometric_Functions = ("삼각함수", [SubConceptEnum.Trigonometric_Functions, SubConceptEnum.Graphs_of_Trigonometric_Functions, SubConceptEnum.Applications_of_Trigonometric_Functions])
+    Sequences = ("수열", [SubConceptEnum.Arithmetic_and_Geometric_Sequences, SubConceptEnum.Sum_of_Sequences, SubConceptEnum.Mathematical_Induction])
+    Functions_Limits_and_Continuity = ("함수의 극한과 연속", [SubConceptEnum.Functions_Limits, SubConceptEnum.Functions_Continuity])
+    Differentiation = ("미분", [SubConceptEnum.Differential_Coefficient, SubConceptEnum.Derivative_Functions, SubConceptEnum.Applications_of_Derivatives])
+    Integration_in_Math_2 = ("적분", [SubConceptEnum.Indefinite_Integrals, SubConceptEnum.Definite_Integrals, SubConceptEnum.Applications_of_Definite_Integrals_in_Math_2])
+    Limits_of_Sequences = ("수열의 극한", [SubConceptEnum.Limits_of_Sequences, SubConceptEnum.Series])
+    Differential_Calculus = ("미분법", [SubConceptEnum.Differentiation_of_Various_Functions, SubConceptEnum.Various_Differentiation_Methods, SubConceptEnum.Applications_of_Derivative_Functions])
+    Integration_in_calculus = ("적분법", [SubConceptEnum.Various_Integration_Methods, SubConceptEnum.Applications_of_Definite_Integrals_in_Calculus])
+    Counting_Methods = ("경우의 수", [SubConceptEnum.Permutations_and_combinations, SubConceptEnum.Binomial_Theorem])
+    Probability = ("확률", [SubConceptEnum.Probability, SubConceptEnum.Conditional_Probability])
+    Statistics = ("통계", [SubConceptEnum.Probability_Distributions, SubConceptEnum.Statistical_Estimation])
+    Conic_Sections = ("이차곡선", [SubConceptEnum.Conic_Sections, SubConceptEnum.Conic_Sections_and_Lines])
+    Plane_Vectors = ("평면벡터", [SubConceptEnum.Vector_Operations, SubConceptEnum.Components_and_Dot_Product_of_Plane_Vectors])
+    Spatial_Shapes_and_Coordinates = ("공간도형과 공간좌표", [SubConceptEnum.Spatial_Shapes, SubConceptEnum.Spatial_Coordinates])
 
     def __str__(self):
         return self.value[0]
 
 
-class Subject(Enum):
-    Math_high = ("수학 상", [Chapter.Polynomial, Chapter.Equations, Chapter.Inequalities, Chapter.Equations_of_Shapes])
-    Math_low = ("수학 하", [Chapter.Sets_and_Propositions, Chapter.Functions, Chapter.Permutations_and_Combinations])
-    Math_1 = ("수학1", [Chapter.Exponential_and_Logarithmic_Functions, Chapter.Trigonometric_Functions, Chapter.Sequences])
-    Math_2 = ("수학2", [Chapter.Functions_Limits_and_Continuity, Chapter.Differentiation, Chapter.Integration_in_Math_2])
-    Calculus = ("미적분", [Chapter.Limits_of_Sequences, Chapter.Differential_Calculus, Chapter.Integration_in_calculus])
-    Probability_and_Statistics = ("확률과 통계", [Chapter.Counting_Methods, Chapter.Probability, Chapter.Statistics])
-    Geometry = ("기하", [Chapter.Conic_Sections, Chapter.Plane_Vectors, Chapter.Spatial_Shapes_and_Coordinates])
+class SubjectEnum(Enum):
+    Math_high = ("수학 상", [ChapterEnum.Polynomial, ChapterEnum.Equations, ChapterEnum.Inequalities, ChapterEnum.Equations_of_Shapes])
+    Math_low = ("수학 하", [ChapterEnum.Sets_and_Propositions, ChapterEnum.Functions, ChapterEnum.Permutations_and_Combinations])
+    Math_1 = ("수학1", [ChapterEnum.Exponential_and_Logarithmic_Functions, ChapterEnum.Trigonometric_Functions, ChapterEnum.Sequences])
+    Math_2 = ("수학2", [ChapterEnum.Functions_Limits_and_Continuity, ChapterEnum.Differentiation, ChapterEnum.Integration_in_Math_2])
+    Calculus = ("미적분", [ChapterEnum.Limits_of_Sequences, ChapterEnum.Differential_Calculus, ChapterEnum.Integration_in_calculus])
+    Probability_and_Statistics = ("확률과 통계", [ChapterEnum.Counting_Methods, ChapterEnum.Probability, ChapterEnum.Statistics])
+    Geometry = ("기하", [ChapterEnum.Conic_Sections, ChapterEnum.Plane_Vectors, ChapterEnum.Spatial_Shapes_and_Coordinates])
 
     def __str__(self):
         return self.value[0]
