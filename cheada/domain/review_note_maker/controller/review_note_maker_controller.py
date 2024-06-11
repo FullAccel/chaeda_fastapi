@@ -7,7 +7,6 @@ from typing import List
 from cheada.globalUtils.types import ChapterEnum
 from enum import Enum
 from cheada.globalUtils.global_vars import globalUtils_dir, temp_problem_storage
-from cheada.domain.review_note_maker.service.review_note_service import change_dpi
 
 import os
 
