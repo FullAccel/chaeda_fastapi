@@ -19,7 +19,7 @@ def change_dpi(input_path, output_path, index, dpi=(600, 600)):
 
 
 def convert_images_to_pdf(data, filename, image_folder, output_pdf):
-    info_list = data.review_note_problem_info_list
+    info_list = data.reviewNoteProblemInfoList
     
     # 페이지 사이즈 정의 (A4)
     page_width, page_height = A4

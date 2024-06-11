@@ -28,7 +28,7 @@ class ReviewNoteProblemInfo(BaseModel):
 class ReviewNoteMakeRequest(BaseModel):
     filename: str
     memberId: int
-    review_note_problem_info_list: List[ReviewNoteProblemInfo]
+    reviewNoteProblemInfoList: List[ReviewNoteProblemInfo]
 
 
 router = APIRouter()
@@ -37,7 +37,7 @@ router = APIRouter()
 @router.post("/review-note")
 def reviewNoteMaker(data: ReviewNoteMakeRequest):
     fileName = data.filename
-    for info in data.review_note_problem_info_list:
+    for info in data.reviewNoteProblemInfoList:
 
         s3_problem_image_path = f"review_note_problem/{data.memberId}/{info.imageKey}.png"
 
