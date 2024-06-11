@@ -135,9 +135,6 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         page_num = page_img.split("p")[0]
         
         for eng_chap in ChapterEnum:
-            if type(result) is str:
-                result = json.loads(result)
-
             if eng_chap.value == result['category']:
                 chapter_eng = eng_chap.name
                 

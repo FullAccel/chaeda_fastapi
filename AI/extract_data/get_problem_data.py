@@ -25,7 +25,7 @@ def get_response_from_claude(image_path, subject=''):
     if len(subject) > 1:
         response = client.messages.create(
             model="claude-3-haiku-20240307",
-            max_tokens=40,
+            max_tokens=80,
             temperature=0.0,
             # system="Respond only in Yoda-speak.",
             messages=[
@@ -51,7 +51,7 @@ def get_response_from_claude(image_path, subject=''):
     else:
         response = client.messages.create(
             model="claude-3-haiku-20240307",
-            max_tokens=60,
+            max_tokens=80,
             temperature=0.0,
             # system="Respond only in Yoda-speak.",
             messages=[
@@ -82,11 +82,7 @@ def get_response_from_claude(image_path, subject=''):
         response_texts = [block.text for block in response.content if hasattr(block, 'text')]
         result_text = " ".join(response_texts)
 
-    try:
-        return json.loads(result_text)
-    except json.JSONDecodeError:
-        # result_text가 유효한 JSON이 아닌 경우 처리
-        return result_text
+    return json.loads(result_text)
  
 # # 함수 사용 예시
 # subject = "미적분"
