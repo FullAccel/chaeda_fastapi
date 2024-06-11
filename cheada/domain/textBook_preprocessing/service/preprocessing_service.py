@@ -167,7 +167,6 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
         else:
             print(f"Failed to create problem: {res.content}")
         
-        if i == 30: break
     # shutil.rmtree(temp_page_storage)
     [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
     # [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
