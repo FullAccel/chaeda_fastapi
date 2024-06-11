@@ -31,7 +31,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         img_path = os.path.join(image_folder, file)
         img = cv2.imread(img_path)
         img_height, img_width, _ = img.shape
-        if not 250 < img_width < 270:
+        if img_width > 261:
             # 가로 세로 비율 계산
             aspect_ratio = img_height / img_width
             
@@ -42,7 +42,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             img = cv2.resize(img, (260, target_height), interpolation=cv2.INTER_LANCZOS4)
         print(f"img.shape : {img.shape}")
         
-        if img_height >= threshold:
+        if img.shape[0] >= threshold:
             large_problems.append((img_path, img))
         else:
             small_problems.append((img_path, img))
@@ -67,15 +67,15 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             c.drawImage(os.path.join(globalUtils_dir, "template_large.png"), 0, 0, width=page_width, height=page_height)
         img_height, img_width, _ = img.shape
         
-        if img_width > 254:
-            new_width = 254
+        if img_width > 260:
+            new_width = 260
             new_height = int((new_width / img_width) * img_height)
             resized_img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_LANCZOS4)
             img_path = save_temp_image(resized_img)
         
         # 이미지 배치
         if left_page_full:
-            c.drawImage(img_path, page_width / 2 + 20, page_height - img_height - 14)
+            c.drawImage(img_path, page_width / 2 + 22, page_height - img_height - 18)
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
             c.drawString(page_width / 2 + 30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
@@ -87,7 +87,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             c.drawString(page_width / 2 + 30, page_height / 2 - 386, f'정답: {info_list[i].answer}')
             c.showPage()
         else:
-            c.drawImage(img_path, 22, page_height - img_height - 14)
+            c.drawImage(img_path, 22, page_height - img_height - 18)
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
             c.drawString(30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
@@ -111,8 +111,8 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             c.drawImage(os.path.join(globalUtils_dir, "template.png"), 0, 0, width=page_width, height=page_height)
         img_height, img_width, _ = img.shape
 
-        if img_width > 254:
-            new_width = 254
+        if img_width > 260:
+            new_width = 260
             new_height = int((new_width / img_width) * img_height)
             resized_img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_LANCZOS4)
             img_path = save_temp_image(resized_img)
