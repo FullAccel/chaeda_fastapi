@@ -31,7 +31,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         img_path = os.path.join(image_folder, file)
         img = cv2.imread(img_path)
         img_height, img_width, _ = img.shape
-        if 250 < img_width < 270:
+        if not 250 < img_width < 270:
             # 가로 세로 비율 계산
             aspect_ratio = img_height / img_width
             
