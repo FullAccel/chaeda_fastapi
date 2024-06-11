@@ -44,8 +44,10 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         
         if img.shape[0] >= threshold:
             large_problems.append((img_path, img))
+            print("==========large=========")
         else:
             small_problems.append((img_path, img))
+            print("==========small=========")
 
     
     c = canvas.Canvas(output_pdf, pagesize=A4)
