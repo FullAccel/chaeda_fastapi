@@ -27,7 +27,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
     threshold = 320
     large_problems = []
     small_problems = []
-    for file in image_files:
+    for i, file in enumerate(image_files):
         img_path = os.path.join(image_folder, file)
         img = cv2.imread(img_path)
         img_height, img_width, _ = img.shape
@@ -43,10 +43,10 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         print(f"img.shape : {img.shape}")
         
         if img.shape[0] >= threshold:
-            large_problems.append((img_path, img))
+            large_problems.append((i, img_path, img))
             print("==========large=========")
         else:
-            small_problems.append((img_path, img))
+            small_problems.append((i, img_path, img))
             print("==========small=========")
 
     
@@ -63,7 +63,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
 
     left_page_full = False
 
-    for i, (img_path, img) in enumerate(large_problems):
+    for i, img_path, img in large_problems:
         logging.info("large_problem 생성 중")
         if i%2 == 0:
             c.drawImage(os.path.join(globalUtils_dir, "template_large.png"), 0, 0, width=page_width, height=page_height)
@@ -107,7 +107,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
         left_page_full = not left_page_full
         c.showPage()
         
-    for i, (img_path, img) in enumerate(small_problems):
+    for i, img_path, img in small_problems:
         logging.info("small_problems 생성 중")
         if i%4 == 0:
             c.drawImage(os.path.join(globalUtils_dir, "template.png"), 0, 0, width=page_width, height=page_height)
