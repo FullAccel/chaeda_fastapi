@@ -168,5 +168,5 @@ def start_preprocessing(fileName, local_textbook_dir, temp_page_storage, temp_pr
             print(f"Failed to create problem: {res.content}")
         
     # shutil.rmtree(temp_page_storage)
-    [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
+    # [os.remove(f) for f in glob.glob(os.path.join(temp_page_storage, "*.png"))]
     # [os.remove(f) for f in glob.glob(os.path.join(temp_problem_storage, "*.png"))]
