@@ -273,7 +273,7 @@ class ChapterEnum(Enum):
         return self.value[0]
 
 
-class Subject(Enum):
+class SubjectEnum(Enum):
     Math_high = ("수학 상", [ChapterEnum.Polynomial, ChapterEnum.Equations, ChapterEnum.Inequalities, ChapterEnum.Equations_of_Shapes])
     Math_low = ("수학 하", [ChapterEnum.Sets_and_Propositions, ChapterEnum.Functions, ChapterEnum.Permutations_and_Combinations])
     Math_1 = ("수학1", [ChapterEnum.Exponential_and_Logarithmic_Functions, ChapterEnum.Trigonometric_Functions, ChapterEnum.Sequences])
