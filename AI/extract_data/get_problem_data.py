@@ -42,7 +42,7 @@ def get_response_from_claude(image_path, subject=''):
                         },
                         {
                             "type": "text",
-                            "text": f"Here is a category list.\n{subject2category[subject]}\nPlease predict category from the list and problem number(there is no only 0, it is string type) from this korean math problem image and output it within a JSON object.\n"
+                            "text": f"Here is a category list.\n{subject2detail[subject]}\nPlease predict category from the list and problem number(there is no only 0, it is string type) from this korean math problem image and output it within a JSON object.\n"
                         }
                     ],
                 }
@@ -68,7 +68,7 @@ def get_response_from_claude(image_path, subject=''):
                         },
                         {
                             "type": "text",
-                            "text": f"Here is a dictionary:\n{subject2category}\nKeys are math subject and values are categories. Please predict subject, category, problem number(there is no only 0, it is string type) from image and output it within a JSON object only.\n"
+                            "text": f"Here is a dictionary:\n{subject2detail}\nKeys are math subject and values are categories. Please predict subject, category, problem number(there is no only 0, it is string type) from image and output it within a JSON object only.\n"
                         }
                     ],
                 }
