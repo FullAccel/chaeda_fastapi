@@ -36,7 +36,7 @@ class SubjectEnum(Enum):
     Geometry = "기하"
     Mix = "혼합형"
 
-class ChapterEnumEnum(Enum):
+class ChapterEnum(Enum):
     #수학 상
     Polynomial = "다항식"
     Equations = "방정식"
@@ -73,7 +73,7 @@ class ChapterEnumEnum(Enum):
     Plane_Vectors = "평면벡터"
     Spatial_Shapes_and_Coordinates = "공간도형과 공간좌표"
 
-class SubConceptEnumEnum(Enum):
+class SubConceptEnum(Enum):
     #------------------수학 상-----------------------
     # Polynomial : 다항식
     Operations_of_polynomials = "다항식의 연산"
