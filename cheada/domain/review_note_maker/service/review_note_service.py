@@ -158,7 +158,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
 
     c.save()
     print(f"PDF 파일이 성공적으로 생성되었습니다: {output_pdf}")
-    upload_problem_image_from_s3(f'{filename}', output_pdf)
+    s3_utils.upload_pdf_to_s3(f'{filename}', output_pdf)
 
 
 def save_temp_image(image):
