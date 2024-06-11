@@ -29,7 +29,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
     small_problems = []
     for file in image_files:
         img_path = os.path.join(image_folder, file)
-        img = cv2.imread(img_path)
+        img = Image.open(img_path)
         img_height, img_width, _ = img.shape
         if not 250 < img_width < 270:
             # 가로 세로 비율 계산
