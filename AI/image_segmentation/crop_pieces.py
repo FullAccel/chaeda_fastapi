@@ -30,9 +30,6 @@ def model_predict(image_dir, save_location):
     # page2problems = collections.defaultdict(list)
     
     for i, image in enumerate(os.listdir(rf"{image_dir}")): 
-        if i == 10:
-            break
-
         image_path = os.path.join(image_dir, image)
         predictions = model.predict(image_path, confidence=40, overlap=40).json()["predictions"]
         page_num = image.split(".")[0]
