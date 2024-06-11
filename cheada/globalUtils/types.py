@@ -185,11 +185,11 @@
 #     Spatial_Shapes = "공간도형"
 #     Spatial_Coordinates = "공간좌표"
 
+
 from enum import Enum
 from typing import List
 
 class SubConcept(Enum):
-    # 수학 상
     Operations_of_polynomials = "다항식의 연산"
     Remainder_theorem_and_factorization = "나머지정리와 인수분해"
     Complex_numbers = "복소수"
@@ -202,8 +202,6 @@ class SubConcept(Enum):
     Equations_of_lines = "직선의 방정식"
     Equations_of_circles = "원의 방정식"
     Transformation_of_shapes = "도형의 이동"
-
-    # 수학 하
     Meaning_and_representation_of_sets = "집합의 뜻과 표현"
     Operations_of_sets = "집합의 연산"
     Propositions = "명제"
@@ -211,8 +209,6 @@ class SubConcept(Enum):
     Rational_expressions_and_rational_functions = "유리식과 유리함수"
     Irrational_expressions_and_irrational_functions = "무리식과 무리함수"
     Permutations_and_combinations = "순열과 조합"
-
-    # 수학 1
     Exponents_and_Logarithms = "지수와 로그"
     Exponential_and_Logarithmic_Functions = "지수함수와 로그함수"
     Trigonometric_Functions = "삼각함수"
@@ -221,8 +217,6 @@ class SubConcept(Enum):
     Arithmetic_and_Geometric_Sequences = "등차수열과 등비수열"
     Sum_of_Sequences = "수열의 합"
     Mathematical_Induction = "수학적 귀납법"
-
-    # 수학 2
     Functions_Limits = "함수의 극한"
     Functions_Continuity = "함수의 연속"
     Differential_Coefficient = "미분계수"
@@ -231,8 +225,6 @@ class SubConcept(Enum):
     Indefinite_Integrals = "부정적분"
     Definite_Integrals = "정적분"
     Applications_of_Definite_Integrals_in_Math_2 = "정적분의 활용"
-
-    # 미적분
     Limits_of_Sequences = "수열의 극한"
     Series = "급수"
     Differentiation_of_Various_Functions = "여러 가지 함수의 미분"
@@ -240,15 +232,11 @@ class SubConcept(Enum):
     Applications_of_Derivative_Functions = "도함수의 활용"
     Various_Integration_Methods = "여러 가지 적분법"
     Applications_of_Definite_Integrals_in_Calculus = "정적분의 활용"
-
-    # 확률과 통계
     Binomial_Theorem = "이항정리"
     Probability = "확률"
     Conditional_Probability = "조건부확률"
     Probability_Distributions = "확률분포"
     Statistical_Estimation = "통계적 추정"
-
-    # 기하
     Conic_Sections = "이차곡선"
     Conic_Sections_and_Lines = "이차곡선과 직선"
     Vector_Operations = "벡터의 연산"
@@ -258,41 +246,31 @@ class SubConcept(Enum):
 
 
 class Chapter(Enum):
-    # 수학 상
     Polynomial = ("다항식", [SubConcept.Operations_of_polynomials, SubConcept.Remainder_theorem_and_factorization])
     Equations = ("방정식", [SubConcept.Complex_numbers, SubConcept.Quadratic_equations, SubConcept.Quadratic_equations_and_quadratic_functions, SubConcept.Various_types_of_equations])
     Inequalities = ("부등식", [SubConcept.Linear_inequalities, SubConcept.Quadratic_inequalities])
     Equations_of_Shapes = ("도형의 방정식", [SubConcept.Plane_coordinates, SubConcept.Equations_of_lines, SubConcept.Equations_of_circles, SubConcept.Transformation_of_shapes])
-
-    # 수학 하
     Sets_and_Propositions = ("집합과 명제", [SubConcept.Meaning_and_representation_of_sets, SubConcept.Operations_of_sets, SubConcept.Propositions])
     Functions = ("함수", [SubConcept.Functions, SubConcept.Rational_expressions_and_rational_functions, SubConcept.Irrational_expressions_and_irrational_functions])
     Permutations_and_Combinations = ("순열과 조합", [SubConcept.Permutations_and_combinations])
-
-    # 수학 1
     Exponential_and_Logarithmic_Functions = ("지수함수와 로그함수", [SubConcept.Exponents_and_Logarithms, SubConcept.Exponential_and_Logarithmic_Functions])
     Trigonometric_Functions = ("삼각함수", [SubConcept.Trigonometric_Functions, SubConcept.Graphs_of_Trigonometric_Functions, SubConcept.Applications_of_Trigonometric_Functions])
     Sequences = ("수열", [SubConcept.Arithmetic_and_Geometric_Sequences, SubConcept.Sum_of_Sequences, SubConcept.Mathematical_Induction])
-
-    # 수학 2
     Functions_Limits_and_Continuity = ("함수의 극한과 연속", [SubConcept.Functions_Limits, SubConcept.Functions_Continuity])
     Differentiation = ("미분", [SubConcept.Differential_Coefficient, SubConcept.Derivative_Functions, SubConcept.Applications_of_Derivatives])
     Integration_in_Math_2 = ("적분", [SubConcept.Indefinite_Integrals, SubConcept.Definite_Integrals, SubConcept.Applications_of_Definite_Integrals_in_Math_2])
-
-    # 미적분
     Limits_of_Sequences = ("수열의 극한", [SubConcept.Limits_of_Sequences, SubConcept.Series])
     Differential_Calculus = ("미분법", [SubConcept.Differentiation_of_Various_Functions, SubConcept.Various_Differentiation_Methods, SubConcept.Applications_of_Derivative_Functions])
     Integration_in_calculus = ("적분법", [SubConcept.Various_Integration_Methods, SubConcept.Applications_of_Definite_Integrals_in_Calculus])
-
-    # 확률과 통계
     Counting_Methods = ("경우의 수", [SubConcept.Permutations_and_combinations, SubConcept.Binomial_Theorem])
     Probability = ("확률", [SubConcept.Probability, SubConcept.Conditional_Probability])
     Statistics = ("통계", [SubConcept.Probability_Distributions, SubConcept.Statistical_Estimation])
-
-    # 기하
     Conic_Sections = ("이차곡선", [SubConcept.Conic_Sections, SubConcept.Conic_Sections_and_Lines])
     Plane_Vectors = ("평면벡터", [SubConcept.Vector_Operations, SubConcept.Components_and_Dot_Product_of_Plane_Vectors])
     Spatial_Shapes_and_Coordinates = ("공간도형과 공간좌표", [SubConcept.Spatial_Shapes, SubConcept.Spatial_Coordinates])
+
+    def __str__(self):
+        return self.value[0]
 
 
 class Subject(Enum):
@@ -303,3 +281,6 @@ class Subject(Enum):
     Calculus = ("미적분", [Chapter.Limits_of_Sequences, Chapter.Differential_Calculus, Chapter.Integration_in_calculus])
     Probability_and_Statistics = ("확률과 통계", [Chapter.Counting_Methods, Chapter.Probability, Chapter.Statistics])
     Geometry = ("기하", [Chapter.Conic_Sections, Chapter.Plane_Vectors, Chapter.Spatial_Shapes_and_Coordinates])
+
+    def __str__(self):
+        return self.value[0]
