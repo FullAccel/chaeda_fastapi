@@ -10,13 +10,6 @@ from PIL import Image
 from cheada.globalUtils.global_vars import globalUtils_dir
 import logging
 
-def change_dpi(input_path, output_path, index, dpi=(600, 600)):
-    # 이미지를 엽니다
-    with Image.open(input_path) as img:
-        # 이미지를 저장할 때 DPI를 설정합니다
-        img.save(os.path.join(output_path, f"{index}_1200.png"), dpi=dpi)
-        print(f"Saved {output_path} with DPI {dpi}")
-
 
 def convert_images_to_pdf(data, filename, image_folder, output_pdf):
     info_list = data.reviewNoteProblemInfoList
