@@ -39,7 +39,7 @@ def reviewNoteMaker(data: ReviewNoteMakeRequest):
     for info in data.reviewNoteProblemInfoList:
 
         s3_problem_image_path = f"review_note_problem/{data.memberId}/{info.imageKey}.png"
-
+        print("===========자 이제 문제 이미지 다운 들어갑니다===========")
         review_note_service.download_problem_image_from_s3(filename=s3_problem_image_path, file_location=temp_problem_storage)
 
     # for i, img in enumerate(os.listdir(temp_problem_storage)):

@@ -21,6 +21,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
     
     # 이미지 파일 목록 가져오기
     image_files = [f for f in os.listdir(image_folder) if f.endswith('.png')]
+    print(f"===========image_files 길이: {image_files}===========")
 
     # 이미지 파일 크기 나누기
     threshold = 320
