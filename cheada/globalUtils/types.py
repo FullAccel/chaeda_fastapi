@@ -36,7 +36,7 @@ subject2category = {
 #     Geometry = "기하"
 #     Mix = "혼합형"
 
-# class ChapterEnum(Enum):
+# class ChapterEnumEnum(Enum):
 #     #수학 상
 #     Polynomial = "다항식"
 #     Equations = "방정식"
@@ -73,7 +73,7 @@ subject2category = {
 #     Plane_Vectors = "평면벡터"
 #     Spatial_Shapes_and_Coordinates = "공간도형과 공간좌표"
 
-# class SubConceptEnum(Enum):
+# class SubConceptEnumEnum(Enum):
 #     #------------------수학 상-----------------------
 #     # Polynomial : 다항식
 #     Operations_of_polynomials = "다항식의 연산"
@@ -185,9 +185,9 @@ subject2category = {
 #     Spatial_Shapes = "공간도형"
 #     Spatial_Coordinates = "공간좌표"
 
-
 from enum import Enum
 from typing import List
+import json
 
 class SubConceptEnum(Enum):
     Operations_of_polynomials = "다항식의 연산"
@@ -273,7 +273,7 @@ class ChapterEnum(Enum):
         return self.value[0]
 
 
-class SubjectEnum(Enum):
+class Subject(Enum):
     Math_high = ("수학 상", [ChapterEnum.Polynomial, ChapterEnum.Equations, ChapterEnum.Inequalities, ChapterEnum.Equations_of_Shapes])
     Math_low = ("수학 하", [ChapterEnum.Sets_and_Propositions, ChapterEnum.Functions, ChapterEnum.Permutations_and_Combinations])
     Math_1 = ("수학1", [ChapterEnum.Exponential_and_Logarithmic_Functions, ChapterEnum.Trigonometric_Functions, ChapterEnum.Sequences])
@@ -284,3 +284,11 @@ class SubjectEnum(Enum):
 
     def __str__(self):
         return self.value[0]
+
+# Helper function to serialize enums to their string representation
+def serialize_enum(enum_obj):
+    if isinstance(enum_obj, Enum):
+        return str(enum_obj)
+    if isinstance(enum_obj, list):
+        return [serialize_enum(item) for item in enum_obj]
+    return enum_obj
