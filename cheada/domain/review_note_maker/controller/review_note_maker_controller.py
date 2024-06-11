@@ -21,7 +21,7 @@ class ReviewNoteProblemInfo(BaseModel):
     answer: str = Field(..., description='문제의 정답', example='42')
     textbookName: str = Field(..., description='교재 이름', example='쎈 미적분')
     problemNum: str = Field(..., description='문제 번호', example='101')
-    chapter: ChapterEnum = Field(..., description='문제가 속한 챕터')
+    chapter: str = Field(..., description='문제가 속한 챕터')
 
 
 class ReviewNoteMakeRequest(BaseModel):

@@ -9,6 +9,7 @@ import tempfile
 from PIL import Image
 from cheada.globalUtils.global_vars import globalUtils_dir
 import logging
+from cheada.globalUtils.types import ChapterEnum
 
 
 def convert_images_to_pdf(data, filename, image_folder, output_pdf):
@@ -67,7 +68,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             c.drawString(page_width / 2 + 30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
-            c.drawString(page_width / 2 + 30, page_height / 2 - 370, f'단원: {info_list[i].chapter.value}')
+            c.drawString(page_width / 2 + 30, page_height / 2 - 370, f'단원: {ChapterEnum[info_list[i].chapter].value}')
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
             c.drawString(page_width / 2 + 30, page_height / 2 - 386, f'정답: {info_list[i].answer}')
@@ -79,7 +80,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             c.drawString(30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
-            c.drawString(30, page_height / 2 - 370, f'단원: {info_list[i].chapter.value}')
+            c.drawString(30, page_height / 2 - 370, f'단원: {ChapterEnum[info_list[i].chapter].value}')
             c.setFillColorRGB(0.2, 0.2, 0.2)
             c.setFont('NanumBarunGothic', 10)
             c.drawString(30, page_height / 2 - 386, f'정답: {info_list[i].answer}')
@@ -113,7 +114,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
                 c.drawString(page_width / 2 + 30, page_height / 2 + 51, f'교재: {info_list[i].textbookName}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
-                c.drawString(page_width / 2 + 30, page_height / 2 + 35, f'단원: {info_list[i].chapter.value}')
+                c.drawString(page_width / 2 + 30, page_height / 2 + 35, f'단원: {ChapterEnum[info_list[i].chapter].value}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
                 c.drawString(page_width / 2 + 30, page_height / 2 + 19, f'정답: {info_list[i].answer}')
@@ -124,7 +125,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
                 c.drawString(page_width / 2 + 30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
-                c.drawString(page_width / 2 + 30, page_height / 2 - 370, f'단원: {info_list[i].chapter.value}')
+                c.drawString(page_width / 2 + 30, page_height / 2 - 370, f'단원: {ChapterEnum[info_list[i].chapter].value}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
                 c.drawString(page_width / 2 + 30, page_height / 2 - 386, f'정답: {info_list[i].answer}')
@@ -138,7 +139,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
                 c.drawString(30, page_height - 369, f'교재: {info_list[i].textbookName}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
-                c.drawString(30, page_height - 385, f'단원: {info_list[i].chapter.value}')
+                c.drawString(30, page_height - 385, f'단원: {ChapterEnum[info_list[i].chapter].value}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
                 c.drawString(30, page_height - 401, f'정답: {info_list[i].answer}')
@@ -149,7 +150,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
                 c.drawString(30, page_height / 2 - 354, f'교재: {info_list[i].textbookName}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
-                c.drawString(30, page_height / 2 - 370, f'단원: {info_list[i].chapter.value}')
+                c.drawString(30, page_height / 2 - 370, f'단원: {ChapterEnum[info_list[i].chapter].value}')
                 c.setFillColorRGB(0.2, 0.2, 0.2)
                 c.setFont('NanumBarunGothic', 10)
                 c.drawString(30, page_height / 2 - 386, f'정답: {info_list[i].answer}')
