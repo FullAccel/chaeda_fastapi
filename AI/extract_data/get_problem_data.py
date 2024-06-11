@@ -82,6 +82,8 @@ def get_response_from_claude(image_path, subject=''):
         response_texts = [block.text for block in response.content if hasattr(block, 'text')]
         result_text = " ".join(response_texts)
 
+    print(result_text)
+
     return json.loads(result_text)
  
 # # 함수 사용 예시
