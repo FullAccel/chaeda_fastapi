@@ -39,7 +39,7 @@ def convert_images_to_pdf(data, filename, image_folder, output_pdf):
             target_height = int(260 * aspect_ratio)
             
             # 이미지 크기 조정  
-            img = cv2.resize(img, (260, target_height))
+            img = cv2.resize(img, (260, target_height), interpolation=cv2.INTER_LANCZOS4)
         print(f"img.shape : {img.shape}")
         
         if img_height >= threshold:
